@@ -47,15 +47,15 @@ const Header = () => {
           </div>
           <div className="rd-navbar-inner">
             <div className="rd-navbar-panel">
-              <button className="rd-navbar-toggle" onClick={toggleMenu}>
-                <span className="hamburger-icon"></span>
-              </button>
               <div className="rd-navbar-brand">
                 <a className="brand-name" href="index.html">
                   <img className="logo-default" src="logo.jpg" alt="" style={{ width: "80px", borderRadius: "60px" }} />
                   <img className="logo-inverse" src="images/logo-inverse-208x46.png" alt="" width="208" height="46" />
                 </a>
               </div>
+              <button className="rd-navbar-toggle" onClick={toggleMenu}>
+                <span className="hamburger-icon"></span>
+              </button>
             </div>
             <div className={`rd-navbar-aside-center ${isMenuOpen ? 'open' : ''}`}>
               <div className="rd-navbar-nav-wrap">
@@ -66,7 +66,7 @@ const Header = () => {
                 </ul>
               </div>
             </div>
-            <div className="rd-navbar-aside-right">
+            <div className={`rd-navbar-aside-right  ${isMenuOpen ? 'open' : ''}`}>
               <a className="button button-sm button-secondary button-nina" href="#">Book a VISA now</a>
             </div>
           </div>

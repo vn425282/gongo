@@ -10685,7 +10685,6 @@ html[class*="ie"] .dtp-hand, html[class*="ie"] .dtp-hour-hand {
 	color: #29293a;
 	background-color: transparent;
 	border: none;
-	display: none;
 }
 
 .rd-navbar-toggle span,
@@ -18039,6 +18038,48 @@ html[dir='rtl'] .lg-css3.lg-slide.lg-use-css3 .lg-item.lg-current {
 	pointer-events: none;
 	opacity: .5;
 }
+
+@media (min-width: 768px) {
+	.rd-navbar-toggle,
+	.rd-navbar-sidebar-toggle {
+		display: none;
+	}
+}
+
+@media (max-width: 768px) {
+	.rd-navbar-inner {
+		flex-direction: column;
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+	.rd-navbar-panel {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+    	align-items: center;
+	}
+	.rd-navbar-brand img {
+		width: 50px !important;
+	}
+	.rd-navbar-static .rd-navbar-aside-center,
+	.rd-navbar-static .rd-navbar-aside-right {
+		display: none;
+	}
+
+	.rd-navbar-static .rd-navbar-aside-center.open,
+	.rd-navbar-static .rd-navbar-aside-right.open {
+		display: flex;
+	}
+
+	.rd-navbar-static .rd-navbar-aside-center .rd-navbar-nav-wrap .rd-navbar-nav > li {
+		display: block;
+	}
+
+	.rd-navbar-static .rd-navbar-aside-right {
+		margin-top: 30px;
+	}
+}
+
 
 /*
 *
