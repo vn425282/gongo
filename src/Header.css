@@ -18046,6 +18046,10 @@ html[dir='rtl'] .lg-css3.lg-slide.lg-use-css3 .lg-item.lg-current {
 	}
 }
 
+.rd-navbar-brand .company-name {
+	display: none;
+}
+
 @media (max-width: 768px) {
 	.rd-navbar-inner {
 		flex-direction: column;
@@ -18080,6 +18084,17 @@ html[dir='rtl'] .lg-css3.lg-slide.lg-use-css3 .lg-item.lg-current {
 	}
 	.rd-navbar-top-panel {
 		display: none !important;
+	}
+	.rd-navbar-brand .company-name {
+		display: block;
+		font-size: 18px;
+        font-weight: bold;
+        margin-left: 15px;
+        color: #333333;
+	}
+	.rd-navbar-brand {
+		display: flex;
+		align-items: center;
 	}
 }
 

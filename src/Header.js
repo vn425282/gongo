@@ -75,6 +75,7 @@ const Header = () => {
                   <img className="logo-default" src="logo.jpg" alt="" style={{ width: "80px", borderRadius: "60px" }} />
                   <img className="logo-inverse" src="images/logo-inverse-208x46.png" alt="" width="208" height="46" />
                 </a>
+                <span className='company-name'>Gongo</span>
               </div>
               <button className="rd-navbar-toggle" onClick={toggleMenu}>
                 <span className="hamburger-icon"></span>
