@@ -1,15 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './Header.css'; // Make sure to create and import a CSS file for styling
+
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const wrapperRef = useRef(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setIsMenuOpen(false)
+        }
+      }
+      // Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+
+  useOutsideAlerter(wrapperRef)
+
   return (
-    <header className="section page-header">
+    <header className="section page-header" ref={wrapperRef}>
       <div className="rd-navbar-wrap rd-navbar-corporate">
         <nav className="rd-navbar rd-navbar-original rd-navbar-static">
           <div className="rd-navbar-collapse-toggle" onClick={toggleMenu}>

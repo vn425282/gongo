@@ -18078,6 +18078,9 @@ html[dir='rtl'] .lg-css3.lg-slide.lg-use-css3 .lg-item.lg-current {
 	.rd-navbar-static .rd-navbar-aside-right {
 		margin-top: 30px;
 	}
+	.rd-navbar-top-panel {
+		display: none !important;
+	}
 }
 
 
