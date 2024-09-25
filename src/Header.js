@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import React, { useState, useRef, useEffect } from 'react';
 import './Header.css'; // Make sure to create and import a CSS file for styling
 
@@ -71,10 +72,10 @@ const Header = () => {
           <div className="rd-navbar-inner">
             <div className="rd-navbar-panel">
               <div className="rd-navbar-brand">
-                <a className="brand-name" href="index.html">
+                <Link className='brand-name' to="/">
                   <img className="logo-default" src="logo.jpg" alt="" style={{ width: "80px", borderRadius: "60px" }} />
                   <img className="logo-inverse" src="images/logo-inverse-208x46.png" alt="" width="208" height="46" />
-                </a>
+                </Link>
                 <span className='company-name'>Gongo</span>
               </div>
               <button className="rd-navbar-toggle" onClick={toggleMenu}>
@@ -84,14 +85,14 @@ const Header = () => {
             <div className={`rd-navbar-aside-center ${isMenuOpen ? 'open' : ''}`}>
               <div className="rd-navbar-nav-wrap">
                 <ul className="rd-navbar-nav">
-                  <li className="active"><a href="index.html">Home</a></li>
+                  <li className="active"><Link to="/">Home</Link></li>
                   <li><a href="about-us.html">About Us</a></li>
                   <li><a href="contacts.html">Contacts</a></li>
                 </ul>
               </div>
             </div>
             <div className={`rd-navbar-aside-right  ${isMenuOpen ? 'open' : ''}`}>
-              <a className="button button-sm button-secondary button-nina" href="#">Book a VISA now</a>
+              <Link className='button button-sm button-secondary button-nina' to="/apply">Book a VISA now</Link>
             </div>
           </div>
         </nav>

@@ -2,7 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from './views/Layout'
-import Home from './views/Home';
+import Home from './views/home/Home';
+import Apply from './views/apply/Apply';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="apply" element={<Apply />} />
         </Route>
       </Routes>
     </BrowserRouter>

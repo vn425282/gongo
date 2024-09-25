@@ -1,6 +1,6 @@
 
 import Header from '../Header';
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 const Layout = () => {
   return (
     <>
@@ -11,7 +11,11 @@ const Layout = () => {
           <footer className="section page-footer page-footer-minimal novi-background bg-cover text-center bg-gray-darker">
             <div className="container container-wide">
               <div className="row row-fix justify-content-sm-center align-items-md-center row-30">
-                <div className="col-md-10 col-lg-7 col-xl-4 text-xl-left"><a href="index.html"><img className="inverse-logo" src="logo.jpg" alt="" style={{width: "80px", borderRadius: "60px"}} width="208" height="46" /></a></div>
+                <div className="col-md-10 col-lg-7 col-xl-4 text-xl-left">
+                  <Link to="/">
+                    <img className="inverse-logo" src="logo.jpg" alt="" style={{width: "80px", borderRadius: "60px"}} width="208" height="46" />
+                  </Link>
+                </div>
                 <div className="col-md-10 col-lg-7 col-xl-4">
                   <p className="right">©&nbsp;<span className="copyright-year">2024</span> All Rights Reserved. Design&nbsp;by&nbsp;<a href="https://www.templatemonster.com">Gongo Team</a></p>
                 </div>

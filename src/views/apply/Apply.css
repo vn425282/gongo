@@ -1,0 +1,116 @@
+.apply .apply_stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 50px 0;
+}
+
+.apply .apply_stepper .apply_stepper_item_number {
+  position: relative;
+}
+
+.apply .apply_stepper .apply_stepper_item_text {
+  color: #c9c3c3;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.apply .apply_stepper .apply_stepper_item_number span {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #c9c3c3;
+  color: #c9c3c3;
+  margin: 0 auto 10px;
+  font-weight: 600;
+}
+
+.apply .apply_stepper .apply_stepper_item_number .apply_stepper_item_number--line {
+  width: calc(50%);
+  border-bottom: 2px solid #c9c3c3;
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translate(-50%, -50%);
+}
+
+.apply .apply_stepper .apply_stepper_item.active .apply_stepper_item_number span {
+  border-color: #000000;
+  color: #000000;
+}
+
+.apply .apply_stepper .apply_stepper_item.active .apply_stepper_item_number--line {
+  border-color: #000000;
+}
+
+.apply .apply_stepper .apply_stepper_item.active .apply_stepper_item_text {
+  color: #000000;
+}
+
+.apply .apply_body_form--title {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  color: #9c0b0b;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.apply .apply_body {
+  text-align: left;
+}
+
+.apply .apply_body_form_input {
+  margin-top: 0px;
+}
+
+.apply .apply_body_form_input--label {
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000000;
+  display: flex;
+  align-items: center;
+}
+
+.apply .apply_body_form_input--label .apply_body_form_input--required {
+  color: #dc3545;
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 5px;
+  line-height: 1;
+}
+
+.apply .css-1u9des2-indicatorSeparator {
+  display: none;
+}
+
+.apply .apply_body_form_input .input-group > div {
+  width: 100%;
+}
+
+.apply .apply_body_form_input .input-group .css-b62m3t-container .css-13cymwt-control {
+  border-radius: 20px;
+  border: 1px solid #c8c6c6;
+}
+
+.apply .apply_body_form_input .input-group .css-b62m3t-container .css-t3ipsp-control {
+  border-radius: 20px;
+}
+
+.apply .apply_body_form_input .input-group .css-b62m3t-container .css-1xc3v61-indicatorContainer {
+  color: #29293a;
+}
+
+.apply .apply_body_form_input .input-group .css-b62m3t-container .css-1dimb5e-singleValue {
+  font-weight: 500;
+  margin-left: 5px;
+}
+
+.apply .apply_body_form_input .input-group .css-b62m3t-container .css-1nmdiq5-menu {
+  font-weight: 500;
+}
