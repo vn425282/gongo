@@ -1,4 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "react-datepicker/dist/react-datepicker.css";
+import 'rc-time-picker/assets/index.css';
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from './views/Layout'

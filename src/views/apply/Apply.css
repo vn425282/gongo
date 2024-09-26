@@ -68,6 +68,10 @@
   margin-top: 0px;
 }
 
+.apply .apply_body_form_input .mb-3 {
+  margin-bottom: 25px !important;
+}
+
 .apply .apply_body_form_input--label {
   margin-bottom: 8px;
   font-size: 16px;
@@ -85,32 +89,42 @@
   line-height: 1;
 }
 
-.apply .css-1u9des2-indicatorSeparator {
-  display: none;
-}
-
 .apply .apply_body_form_input .input-group > div {
   width: 100%;
 }
 
-.apply .apply_body_form_input .input-group .css-b62m3t-container .css-13cymwt-control {
-  border-radius: 20px;
-  border: 1px solid #c8c6c6;
+@media (min-width: 1400px) {
+  .apply .container {
+    max-width: 1320px;
+  }
 }
 
-.apply .apply_body_form_input .input-group .css-b62m3t-container .css-t3ipsp-control {
-  border-radius: 20px;
+.apply .custom_tooltip {
+  background-color: #eceff1;
+  margin-top: 6px;
+  padding: 15px;
+  position: relative;
+  font-size: 14px;
+  color: #000000;
 }
 
-.apply .apply_body_form_input .input-group .css-b62m3t-container .css-1xc3v61-indicatorContainer {
-  color: #29293a;
+.apply .custom_tooltip::before {
+  position: absolute;
+  display: block;
+  top: -18px;
+  left: 30px;
+  content: " ";
+  box-sizing: border-box;
+  z-index: 2;
+  border-color: transparent transparent #eceff1;
+  border-style: solid;
+  border-width: 10px;
 }
 
-.apply .apply_body_form_input .input-group .css-b62m3t-container .css-1dimb5e-singleValue {
-  font-weight: 500;
-  margin-left: 5px;
+.apply .custom_tooltip a {
+  color: red;
 }
 
-.apply .apply_body_form_input .input-group .css-b62m3t-container .css-1nmdiq5-menu {
-  font-weight: 500;
+.apply {
+  padding-bottom: 80px;
 }

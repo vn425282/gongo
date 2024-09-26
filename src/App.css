@@ -36,3 +36,135 @@
     transform: rotate(360deg);
   }
 }
+
+.react-select--custom.css-b62m3t-container .css-13cymwt-control {
+  border-radius: 20px;
+  border: 1px solid #c8c6c6;
+}
+
+.react-select--custom.css-b62m3t-container .css-t3ipsp-control {
+  border-radius: 20px;
+}
+
+.react-select--custom.css-b62m3t-container .css-1xc3v61-indicatorContainer {
+  color: #29293a;
+}
+
+.react-select--custom.css-b62m3t-container .css-1dimb5e-singleValue {
+  font-weight: 500;
+  margin-left: 5px;
+}
+
+.react-select--custom.css-b62m3t-container .css-1nmdiq5-menu {
+  font-weight: 500;
+}
+
+.react-select--custom.css-b62m3t-container .css-1u9des2-indicatorSeparator {
+  display: none;
+}
+
+.input-group {
+  position: relative;
+}
+
+.input-group .error-message {
+  font-size: 13px;
+  color: red;
+  font-weight: 400;
+  position: absolute;
+  bottom: -22px;
+}
+
+.react-select--custom.error.css-b62m3t-container .css-13cymwt-control {
+  border: 1px solid red;
+}
+
+.react-datePicker--custom {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 20px;
+  border: 1px solid #c8c6c6;
+  padding-left: 13px;
+  height: 38px;
+}
+
+.react-datePicker--custom:focus {
+  box-shadow: 0 0 0 1px #2864ff;
+  border-color: #2864ff !important;
+}
+
+.react-datePicker--custom.error {
+  border-color: red;
+}
+
+.redio_group {
+  display: flex;
+  align-items: flex-start;
+}
+.redio_group input {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.redio_group .label_text {
+  color: #000000;
+  font-weight: 500;
+}
+
+.redio_group_container + .redio_group_container {
+  margin-top: 15px;
+}
+
+.text_input {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 20px;
+  border: 1px solid #c8c6c6;
+  padding-left: 13px;
+  height: 38px;
+}
+
+.text_input:focus {
+  box-shadow: 0 0 0 1px #2864ff;
+  border-color: #2864ff !important;
+}
+
+.text_input.error {
+  border-color: red;
+}
+
+.checkbox_group input {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.checkbox_group {
+  display: flex;
+  align-items: center;
+}
+
+.react-timePicker--custom input {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 20px;
+  border: 1px solid #c8c6c6;
+  padding-left: 13px;
+  height: 38px;
+  color: #000000;
+}
+
+.react-timePicker--custom input:focus {
+  box-shadow: 0 0 0 1px #2864ff;
+  border-color: #2864ff !important;
+}
+
+.react-timePicker--custom.error input {
+  border-color: red;
+}
