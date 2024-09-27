@@ -172,3 +172,23 @@
 .react-timePicker--custom {
   width: 100%;
 }
+
+.phoneInput--custom input{
+  border: unset;
+}
+.phoneInput--custom {
+  height: 38px;
+  border-radius: 20px;
+  border: 1px solid #c8c6c6;
+  padding-left: 13px;
+  padding-right: 13px;
+}
+
+.phoneInput--custom:has(input:focus) {
+  box-shadow: 0 0 0 1px #2864ff;
+  border-color: #2864ff !important;
+}
+
+.phoneInput--custom.error {
+  border-color: red;
+}
