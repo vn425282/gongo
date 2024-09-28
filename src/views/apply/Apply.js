@@ -80,6 +80,8 @@ const Apply = () => {
   const handleBackClick = () => {
     setCompleteStep(completeStep - 1)
     setStep(step - 1)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('back-button').blur()
   }
 
   const openNewApplicant = () => {
@@ -100,6 +102,7 @@ const Apply = () => {
   }
 
   function submitHandler(formData){
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     switch (step) {
       case 1:
         setCompleteStep(1)
@@ -112,6 +115,7 @@ const Apply = () => {
       default:
         break;
     }
+    document.getElementById('submit-button').blur()
   }
 
   const onProcessingTimeChanged = (e) => {
@@ -1045,8 +1049,8 @@ const Apply = () => {
                   </div>
                 </>) }
                 <div className='apply_body_form_footer'>
-                  { step > 1 && <button type='button' className='btn btn-outline-danger back-button' onClick={handleBackClick}>&lt; Previous</button> }
-                  <button type='submit' className='btn btn-danger'>Next &gt;</button>
+                  { step > 1 && <button id='back-button' type='button' className='btn btn-outline-danger back-button' onClick={handleBackClick}>&lt; Previous</button> }
+                  <button id='submit-button' type='submit' className='btn btn-danger'>Next &gt;</button>
                 </div>
               </form>
             </div>
