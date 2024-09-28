@@ -71,7 +71,7 @@ const ApplicantModal = (props) => {
     } else {
       setImagePortrait('/images/portrait-photo.jpg')
     }
-  }, [localData])
+  }, [localData.photoOfPassport, localData.portraitPhoto])
 
   const openFileUpload = (id) => {
     const element = document.getElementById(id)

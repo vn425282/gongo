@@ -138,7 +138,7 @@ const Apply = () => {
     const newData = { ...data }
     newData.photoOfPassportBase64 = await convertImageToBase64(newData.photoOfPassport)
     newData.portraitPhotoBase64 = await convertImageToBase64(newData.portraitPhoto)
-    const applicants = JSON.parse(JSON.stringify(contactInfo.applicants))
+    const applicants = [...contactInfo.applicants]
     if (applicants[indexApplicant]) {
       applicants[indexApplicant] = newData
     } else {
