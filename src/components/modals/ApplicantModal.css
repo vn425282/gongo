@@ -1,0 +1,76 @@
+.applicantModal {
+  width: 100vw;
+}
+.applicantModal .applicantModal_title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20px;
+  font-weight: 600;
+  color: #000000;
+  padding: 16px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.applicantModal .applicantModal_title .applicantModal-close-button {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  padding: 0px;
+  width: 32px;
+  justify-content: center;
+  background-color: transparent;
+  border: unset;
+}
+
+.applicantModal .react-datepicker-wrapper {
+  width: 100%;
+}
+
+.applicantModal .row + .row {
+  margin-top: 0px;
+}
+.applicantModal_footer {
+  padding: 10px 0;
+  border-top: 1px solid #dee2e6;
+  text-align: center;
+}
+.applicantModal_footer button {
+  width: 200px;
+  height: 50px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.applicantModal_footer button + button {
+  margin-left: 10px;
+}
+
+.applicantModal form {
+  padding: 20px 0;
+}
+
+.applicantModal_body {
+  max-height: calc(100vh - 240px);
+  overflow: auto;
+}
+
+.applicantModal_body .clear-image-button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 0;
+  background-color: #dc3545;
+  border: unset;
+  border-radius: 4px;
+}
+
+.applicantModal_body .clear-image-button img {
+  filter: brightness(0) saturate(100%) invert(99%) sepia(0%) saturate(7500%) hue-rotate(69deg) brightness(104%) contrast(103%);
+}

@@ -33,3 +33,8 @@ export const esimTypeList = [
   { value: 2, label: 'Mobifone', price: 15 },
   { value: 3, label: 'Vinaphone', price: 15 }
 ]
+
+export const genderList = [
+  { value: 1, label: 'Male' },
+  { value: 1, label: 'Female' }
+]

@@ -1,5 +1,5 @@
 import './Apply.css'
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { numberOfApplicants, lengthOfVisa, purposeOfTravel, portList, processingTimeList, esimTypeList } from '../../globals/constants'
 import Select from 'react-select';
 import { useForm, Controller } from 'react-hook-form';
@@ -7,19 +7,20 @@ import DatePicker from "react-datepicker";
 import dayjs from 'dayjs';
 import TimePicker from 'rc-time-picker';
 import PhoneInput from 'react-phone-number-input'
+import TermsAndConditions from '../../components/TermsAndConditions'
+import ApplicantModal from '../../components/modals/ApplicantModal'
 
 const Apply = () => {
   const {
     control,
     formState: { errors },
-    handleSubmit,
-    sub
+    handleSubmit
   } = useForm({
-    mode: 'all',
-    shouldFocusError: true
+    mode: 'all'
   });
   const eSimList = esimTypeList.map((i, index) => ({ value: i.value, label: `${i.label} | ${i.price}USD` }))
   const [step, setStep] = useState(1);
+  const [indexApplicant, setIndexApplicant] = useState(0);
   const [completeStep, setCompleteStep] = useState(0);
   const [numberApplicants, setNumberApplicants] = useState(null);
   const [lengthVisa, setLengthVisa] = useState(lengthOfVisa[[0]]);
@@ -31,11 +32,15 @@ const Apply = () => {
   const [flightNumber, setFlightNumber] = useState('');
   const [processingTime, setProcessingTime] = useState(processingTimeList[0].value);
   const [promotionCode, setPromotionCode] = useState('');
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [contactInfo, setContactInfo] = useState({
     fullName: '',
     phone: '',
     primaryEmail: '',
-    secondaryEmail: ''
+    secondaryEmail: '',
+    confirmCorrect: false,
+    readTermsAndCondition: false,
+    applicants: []
   });
   
   const [arrivalFastTrack, setArrivalFastTrack] = useState({
@@ -54,6 +59,17 @@ const Apply = () => {
     quantity: null,
     type: eSimList[0]
   })
+
+  const [applicantSelected, setApplicantSelected] = useState({
+    fullLegalName: '',
+    dateOfBirth: null,
+    gender: null,
+    nationality: null,
+    passportNumber: '',
+    expiredDate: null,
+    photoOfPassport: null,
+    portraitPhoto: null
+  })
   
   const handleFocus = (e) => {
     const { target } = e;
@@ -65,17 +81,39 @@ const Apply = () => {
     setCompleteStep(completeStep - 1)
     setStep(step - 1)
   }
+
+  const openNewApplicant = () => {
+    setIndexApplicant(contactInfo.applicants.length)
+    setApplicantSelected({
+      fullLegalName: '',
+      dateOfBirth: null,
+      gender: null,
+      nationality: null,
+      passportNumber: '',
+      expiredDate: null,
+      photoOfPassport: null,
+      portraitPhoto: null
+    })
+    setTimeout(() => {
+      setModalIsOpen(true)
+    }, 200);
+  }
+
   function submitHandler(formData){
     switch (step) {
       case 1:
         setCompleteStep(1)
         setStep(2)
+        if (contactInfo.applicants.length < numberApplicants.value) {
+          openNewApplicant()
+        }
         break;
     
       default:
         break;
     }
   }
+
   const onProcessingTimeChanged = (e) => {
     setProcessingTime(Number(e.currentTarget.value))
   }
@@ -86,6 +124,45 @@ const Apply = () => {
       let firstErrorElement = document.getElementsByName(errorsvalues[0].ref.name)[0];
       firstErrorElement.parentElement.scrollIntoView({ behavior: `smooth`, block: 'center'});
     }
+  }
+
+  const closeModal = (params) => {
+    if (!Array.from(params.target.classList).includes('ReactModal__Overlay')) setModalIsOpen(false)
+  }
+
+  const submitModal = async (data) => {
+    const newData = { ...data }
+    newData.photoOfPassportBase64 = await convertImageToBase64(newData.photoOfPassport)
+    newData.portraitPhotoBase64 = await convertImageToBase64(newData.portraitPhoto)
+    const applicants = JSON.parse(JSON.stringify(contactInfo.applicants))
+    if (applicants[indexApplicant]) {
+      applicants[indexApplicant] = newData
+    } else {
+      applicants.push(newData)
+    }
+
+    setContactInfo({ ...contactInfo, applicants })
+    setModalIsOpen(false)
+  }
+
+  const editApplicant = (applicant, index) => {
+    setIndexApplicant(index)
+    setApplicantSelected({
+      ...applicant
+    })
+    setTimeout(() => {
+      setModalIsOpen(true)
+    }, 200);
+  }
+
+  const convertImageToBase64 = (file) => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.addEventListener("load", function () {
+        resolve(reader.result) ;
+      }, false);
+      reader.readAsDataURL(file)
+    })
   }
 
   return (
@@ -129,9 +206,9 @@ const Apply = () => {
                   <div className='apply_body_form--title'>Visa application form</div>
                   <div className='row apply_body_form_input'>
                     <div className="col-lg-6 mb-3">
-                      <div className='apply_body_form_input--label'>
+                      <div className='form_input--label'>
                         Number of Applicants
-                        <span className='apply_body_form_input--required'>*</span>
+                        <span className='form_input--required'>*</span>
                       </div>
                       <div className='input-group'>
                         <Controller
@@ -164,9 +241,9 @@ const Apply = () => {
                       </div>
                     </div>
                     <div className="col-lg-6 mb-3">
-                      <div className='apply_body_form_input--label'>
+                      <div className='form_input--label'>
                         Length of visa
-                        <span className='apply_body_form_input--required'>*</span>
+                        <span className='form_input--required'>*</span>
                       </div>
                       <div className='input-group'>
                         <Select
@@ -182,9 +259,9 @@ const Apply = () => {
                   </div>
                   <div className='row apply_body_form_input'>
                     <div className="col-lg-6 mb-3">
-                      <div className='apply_body_form_input--label'>
+                      <div className='form_input--label'>
                         Purpose of travel
-                        <span className='apply_body_form_input--required'>*</span>
+                        <span className='form_input--required'>*</span>
                       </div>
                       <div className='input-group'>
                         <Select
@@ -198,9 +275,9 @@ const Apply = () => {
                       </div>
                     </div>
                     <div className="col-lg-3 col-6 mb-3">
-                      <div className='apply_body_form_input--label'>
+                      <div className='form_input--label'>
                         Entry date
-                        <span className='apply_body_form_input--required'>*</span>
+                        <span className='form_input--required'>*</span>
                       </div>
                       <div className='input-group'>
                         <Controller
@@ -234,9 +311,9 @@ const Apply = () => {
                       </div>
                     </div>
                     <div className="col-lg-3 col-6 mb-3">
-                      <div className='apply_body_form_input--label'>
+                      <div className='form_input--label'>
                         Exit date
-                        <span className='apply_body_form_input--required'>*</span>
+                        <span className='form_input--required'>*</span>
                       </div>
                       <div className='input-group'>
                         <Controller
@@ -272,9 +349,9 @@ const Apply = () => {
                   </div>
                   <div className='row apply_body_form_input'>
                     <div className="col-lg-6 mb-3">
-                      <div className='apply_body_form_input--label'>
+                      <div className='form_input--label'>
                         Arrival port
-                        <span className='apply_body_form_input--required'>*</span>
+                        <span className='form_input--required'>*</span>
                       </div>
                       <div className='input-group'>
                         <Controller
@@ -307,9 +384,9 @@ const Apply = () => {
                       </div>
                     </div>
                     <div className="col-lg-6 mb-3">
-                      <div className='apply_body_form_input--label'>
+                      <div className='form_input--label'>
                         Exit through checkpoint
-                        <span className='apply_body_form_input--required'>*</span>
+                        <span className='form_input--required'>*</span>
                       </div>
                       <div className='input-group'>
                         <Controller
@@ -344,9 +421,9 @@ const Apply = () => {
                   </div>
                   <div className='row apply_body_form_input'>
                     <div className="col-lg-6 mb-3">
-                      <div className='apply_body_form_input--label'>
+                      <div className='form_input--label'>
                         Processing time
-                        <span className='apply_body_form_input--required'>*</span>
+                        <span className='form_input--required'>*</span>
                       </div>
                       <div className='input-group'>
                         {
@@ -373,7 +450,7 @@ const Apply = () => {
                     </div>
                     <div className="col-lg-6 mb-3">
                       { entryDate ? (<>
-                        <div className='apply_body_form_input--label'>
+                        <div className='form_input--label'>
                           Flight number
                         </div>
                         <div className='input-group'>
@@ -397,9 +474,9 @@ const Apply = () => {
                     { arrivalFastTrack.checked ? (
                       <div className='row mt-2'>
                         <div className="col-lg-3 mb-3">
-                          <div className='apply_body_form_input--label'>
+                          <div className='form_input--label'>
                             Arrival time
-                            <span className='apply_body_form_input--required'>*</span>
+                            <span className='form_input--required'>*</span>
                           </div>
                           <div className='input-group'>
                             <Controller
@@ -434,9 +511,9 @@ const Apply = () => {
                           </div>
                         </div>
                         <div className="col-lg-3 mb-3">
-                          <div className='apply_body_form_input--label'>
+                          <div className='form_input--label'>
                             Flight number
-                            <span className='apply_body_form_input--required'>*</span>
+                            <span className='form_input--required'>*</span>
                           </div>
                           <div className='input-group'>
                             <Controller
@@ -467,9 +544,9 @@ const Apply = () => {
                           </div>
                         </div>
                         <div className="col-lg-6 mb-3">
-                          <div className='apply_body_form_input--label'>
+                          <div className='form_input--label'>
                             Type
-                            <span className='apply_body_form_input--required'>*</span>
+                            <span className='form_input--required'>*</span>
                           </div>
                           <div className='input-group'>
                             <Controller
@@ -518,9 +595,9 @@ const Apply = () => {
                     { carPickup.checked ? (
                       <div className='row mt-2'>
                         <div className="col-lg-6 mb-3">
-                          <div className='apply_body_form_input--label'>
+                          <div className='form_input--label'>
                             Drop off point
-                            <span className='apply_body_form_input--required'>*</span>
+                            <span className='form_input--required'>*</span>
                           </div>
                           <div className='input-group'>
                             <Controller
@@ -551,9 +628,9 @@ const Apply = () => {
                           </div>
                         </div>
                         <div className="col-lg-6 mb-3">
-                          <div className='apply_body_form_input--label'>
+                          <div className='form_input--label'>
                             Type of Car
-                            <span className='apply_body_form_input--required'>*</span>
+                            <span className='form_input--required'>*</span>
                           </div>
                           <div className='input-group'>
                             <Controller
@@ -602,9 +679,9 @@ const Apply = () => {
                     { eSIM.checked ? (
                       <div className='row mt-2'>
                         <div className="col-lg-6 mb-3">
-                          <div className='apply_body_form_input--label'>
+                          <div className='form_input--label'>
                             Quantity
-                            <span className='apply_body_form_input--required'>*</span>
+                            <span className='form_input--required'>*</span>
                           </div>
                           <div className='input-group'>
                             <Controller
@@ -637,9 +714,9 @@ const Apply = () => {
                           </div>
                         </div>
                         <div className="col-lg-6 mb-3">
-                          <div className='apply_body_form_input--label'>
+                          <div className='form_input--label'>
                             Type
-                            <span className='apply_body_form_input--required'>*</span>
+                            <span className='form_input--required'>*</span>
                           </div>
                           <div className='input-group'>
                             <Controller
@@ -677,13 +754,88 @@ const Apply = () => {
                 </>) }
                 { step === 2 && (<>
                   <div className='apply_body_form--title mt-4'>PASSENGERS INFORMATION / EVISA</div>
-                  <div><span className='apply_body_form--openDialog'>CLICK TO ADD APPLICANT</span></div>
+                  <div>
+                    { contactInfo.applicants.length < numberApplicants.value ? (<span onClick={openNewApplicant} className='apply_body_form--openDialog'>CLICK TO ADD APPLICANT</span>) : null }
+                  </div>
+                  { contactInfo.applicants.length ? (
+                    <div className='apply_body_form_applicant_list'>
+                      {
+                        contactInfo.applicants.map((applicant, index) => (
+                          <div className='apply_body_form_applicant_item' key={index}>
+                            <div className='apply_body_form_applicant_item--title'>
+                              APPLICANT { index + 1 }
+                              <div className='apply_body_form_applicant_item--editButton' onClick={() => editApplicant(applicant, index)}>
+                                <i className="fas fa-pencil-alt"></i> Edit
+                              </div>
+                            </div>
+                            <div className='apply_body_form_applicant_item--body'>
+                              <div className='row'>
+                                <div className='col-md-7'>
+                                  <ul>
+                                    <li>
+                                      <div className='row mb-2'>
+                                        <div className="col-6 fs-14 fw-bold">Full legal name:</div>
+                                        <div className="col-6 fs-14">{ applicant.fullLegalName }</div>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div className='row mb-2'>
+                                        <div className="col-6 fs-14 fw-bold">Date of birth:</div>
+                                        <div className="col-6 fs-14">{ dayjs(applicant.dateOfBirth).format('YYYY-MM-DD') }</div>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div className='row mb-2'>
+                                        <div className="col-6 fs-14 fw-bold">Gender:</div>
+                                        <div className="col-6 fs-14">{ applicant.gender.label }</div>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div className='row mb-2'>
+                                        <div className="col-6 fs-14 fw-bold">Nationality:</div>
+                                        <div className="col-6 fs-14">{ applicant.nationality.label }</div>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div className='row mb-2'>
+                                        <div className="col-6 fs-14 fw-bold">Passport number:</div>
+                                        <div className="col-6 fs-14">{ applicant.passportNumber }</div>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div className='row'>
+                                        <div className="col-6 fs-14 fw-bold">Expired date:</div>
+                                        <div className="col-6 fs-14">{ dayjs(applicant.expiredDate).format('YYYY-MM-DD') }</div>
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div className='col-md-5'>
+                                  <ul>
+                                    <li>
+                                      <div className='mb-2'>
+                                        <div className="fw-bold">Attachments:</div>
+                                      </div>
+                                    </li>
+                                    <div className="row">
+                                      <div className="col-6"><img src={applicant.photoOfPassportBase64} alt='photoOfPassport' width={'100%'}/></div>
+                                      <div className="col-6"><img src={applicant.portraitPhotoBase64} alt='portraitPhoto' width={'100%'}/></div>
+                                    </div>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      }
+                    </div>
+                  ) : null }
                   <div className='apply_body_form--title'>YOUR CONTACT INFORMATION</div>
                   <div className='row apply_body_form_input'>
                     <div className="col-lg-6 mb-3">
-                      <div className='apply_body_form_input--label'>
+                      <div className='form_input--label'>
                         Full name
-                        <span className='apply_body_form_input--required'>*</span>
+                        <span className='form_input--required'>*</span>
                       </div>
                       <div className='input-group'>
                         <Controller
@@ -714,9 +866,9 @@ const Apply = () => {
                       </div>
                     </div>
                     <div className="col-lg-6 mb-3">
-                      <div className='apply_body_form_input--label'>
+                      <div className='form_input--label'>
                         Phone
-                        <span className='apply_body_form_input--required'>*</span>
+                        <span className='form_input--required'>*</span>
                       </div>
                       <div className='input-group'>
                         <Controller
@@ -751,9 +903,9 @@ const Apply = () => {
                   </div>
                   <div className='row apply_body_form_input'>
                     <div className="col-lg-6 mb-3">
-                      <div className='apply_body_form_input--label'>
+                      <div className='form_input--label'>
                         Primary Email
-                        <span className='apply_body_form_input--required'>*</span>
+                        <span className='form_input--required'>*</span>
                       </div>
                       <div className='input-group'>
                         <Controller
@@ -788,7 +940,7 @@ const Apply = () => {
                       </div>
                     </div>
                     <div className="col-lg-6 mb-3">
-                      <div className='apply_body_form_input--label'>
+                      <div className='form_input--label'>
                         Secondary Email
                       </div>
                       <div className='input-group'>
@@ -818,6 +970,77 @@ const Apply = () => {
                         />
                         { errors.secondaryEmail ? (<span className='error-message'>{ errors.secondaryEmail.message }</span>) : null }
                       </div>
+                    </div>
+                  </div>
+                  <div className='row apply_body_form_input mb-3'>
+                    <div className="col-lg-12 mb-3">
+                      <div className='input-group'>
+                        <Controller
+                          control={control}
+                          defaultValue={contactInfo.confirmCorrect}
+                          name="confirmCorrect"
+                          rules={{
+                            required: {
+                              value: true,
+                              message: "This field is required!",
+                            },
+                          }}
+                          render={({ field: { onChange, onBlur, value, ref, name } }) => (
+                            <div className='checkbox_group'>
+                              <input type="checkbox"
+                                defaultChecked={contactInfo.confirmCorrect}
+                                onChange={(e) => {
+                                  setContactInfo({ ...contactInfo, confirmCorrect: e.target.checked })
+                                  onChange(e.target.checked)
+                                }}
+                                id='confirmCorrect'
+                                name={name}
+                              />
+                              <label className='label_text' htmlFor='confirmCorrect'>
+                                I confirm the above information is correct
+                              </label>
+                            </div>
+                          )}
+                        />
+                        { errors.confirmCorrect ? (<span className='error-message'>{ errors.confirmCorrect.message }</span>) : null }
+                      </div>
+                    </div>
+                    <div className="col-lg-12 mb-3">
+                      <div className='input-group'>
+                        <Controller
+                          control={control}
+                          defaultValue={contactInfo.readTermsAndCondition}
+                          name="readTermsAndCondition"
+                          rules={{
+                            required: {
+                              value: true,
+                              message: "This field is required!",
+                            },
+                          }}
+                          render={({ field: { onChange, onBlur, value, ref, name } }) => (
+                            <div className='checkbox_group'>
+                              <input type="checkbox"
+                                name={name}
+                                defaultChecked={contactInfo.readTermsAndCondition}
+                                onChange={(e) => {
+                                  setContactInfo({ ...contactInfo, readTermsAndCondition: e.target.checked })
+                                  onChange(e.target.checked)
+                                }}
+                                id='readTermsAndCondition'
+                              />
+                              <label className='label_text' htmlFor='readTermsAndCondition'>
+                                I have read and agreed <span>Terms and Condition & Cancellation and Refund Policy</span>
+                              </label>
+                            </div>
+                          )}
+                        />
+                        { errors.readTermsAndCondition ? (<span className='error-message'>{ errors.readTermsAndCondition.message }</span>) : null }
+                      </div>
+                    </div>
+                  </div>
+                  <div className='row apply_body_form_input'>
+                    <div className=" col-lg-12 mb-3">
+                      <TermsAndConditions />
                     </div>
                   </div>
                 </>) }
@@ -909,6 +1132,7 @@ const Apply = () => {
           </div>
         </div>
       </div>
+      <ApplicantModal modalIsOpen={modalIsOpen} data={applicantSelected} closeModal={closeModal} onSubmitModal={submitModal} index={indexApplicant}/>
     </div>
   )
 };
